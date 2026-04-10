@@ -1,13 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package br.dev.sophia.fastAndFurious.domain.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import java.math.BigDecimal;
+
 public class Produto {
+   
+    @Id
+    @GeneratedValue
   private long id;
+ 
   private String nome;
   private String descrição;
+  private BigDecimal precoUnit;
+
+    public BigDecimal getPrecoUnit() {
+        return precoUnit;
+    }
+
+    public void setPrecoUnit(BigDecimal precoUnit) {
+        this.precoUnit = precoUnit;
+    }
 
     public Produto() {
     }

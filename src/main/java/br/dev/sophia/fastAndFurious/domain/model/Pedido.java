@@ -2,24 +2,42 @@
 package br.dev.sophia.fastAndFurious.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Pedido {
  private long id;
  private String nomeCliente;
  private String cpfCliente;
  private BigDecimal valor;
- private Produto produto;
+ private LocalDateTime dataAbertura;
+ private StatusPedido status;
 
-    public Pedido() {
+    public StatusPedido getStatus() {
+        return status;
     }
 
-    public Pedido(long id, String nomeCliente, String cpfCliente, BigDecimal valor, Produto produto) {
+    public void setStatus(StatusPedido status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDataAbertura() {
+        return dataAbertura;
+    }
+
+    public void setDataAbertura(LocalDateTime dataAbertura) {
+        this.dataAbertura = dataAbertura;
+    }
+ 
+  
+     public Pedido() {
+    }
+
+    public Pedido(long id, String nomeCliente, String cpfCliente, BigDecimal valor) {
         this.id = id;
         this.nomeCliente = nomeCliente;
         this.cpfCliente = cpfCliente;
         this.valor = valor;
-        this.produto = produto;
-    }
+         }
 
     public long getId() {
         return id;
@@ -53,13 +71,4 @@ public class Pedido {
         this.valor = valor;
     }
 
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-    
-    
-}
+      }
