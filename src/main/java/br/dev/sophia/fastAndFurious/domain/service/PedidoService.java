@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package br.dev.sophia.fastAndFurious.domain.service;
 
 import br.dev.sophia.fastAndFurious.domain.model.Pedido;
@@ -10,10 +6,7 @@ import br.dev.sophia.fastAndFurious.domain.repository.PedidoRepository;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- *
- * @author sesi3dib
- */
+
 public class PedidoService {
 
     @Autowired
@@ -25,4 +18,10 @@ public class PedidoService {
 
         return pedidoRepository.save(pedido);
     }
-}
+    
+    public void excluir(Long pedidoID) {
+       pedidoRepository.deleteById(pedidoID);
+       }
+    
+    }
+
