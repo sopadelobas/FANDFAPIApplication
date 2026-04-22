@@ -3,17 +3,22 @@ package br.dev.sophia.fastAndFurious.domain.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Produto {
    
     @Id
     @GeneratedValue
-  private long id;
+    private long id;
  
   private String nome;
   private String descrição;
   private BigDecimal precoUnit;
+  
+  @OneToMany(mappedBy = "produto")
+  private List<itemPedido> itens;
 
     public BigDecimal getPrecoUnit() {
         return precoUnit;

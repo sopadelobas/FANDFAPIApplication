@@ -5,7 +5,12 @@
 package br.dev.sophia.fastAndFurious.domain.repository;
 
 import br.dev.sophia.fastAndFurious.domain.model.Pedido;
+import br.dev.sophia.fastAndFurious.domain.model.StatusPedido;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-    public interface PedidoRepository extends JpaRepository<Pedido, Long>{}
+    public interface PedidoRepository extends JpaRepository<Pedido, Long>{
+    
+        List<Pedido> findByStatus(StatusPedido status);
+    }

@@ -1,15 +1,40 @@
 
 package br.dev.sophia.fastAndFurious.domain.model;
 
+import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pedido {
  private long id;
  private String nomeCliente;
  private String cpfCliente;
  private BigDecimal valor;
+ 
  private LocalDateTime dataAbertura;
+ private LocalDateTime dataPronto;
+ private LocalDateTime dataEntregue;
+ 
+  @OneToMany(mappedBy = "pedido")
+          List<itemPedido> itens = new ArrayList<>();
+
+    public LocalDateTime getDataPronto() {
+        return dataPronto;
+    }
+
+    public void setDataPronto(LocalDateTime dataPronto) {
+        this.dataPronto = dataPronto;
+    }
+
+    public LocalDateTime getDataEntregue() {
+        return dataEntregue;
+    }
+
+    public void setDataEntregue(LocalDateTime dataEntregue) {
+        this.dataEntregue = dataEntregue;
+    }
  private StatusPedido status;
 
     public StatusPedido getStatus() {
@@ -70,5 +95,15 @@ public class Pedido {
     public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
-
+    
+    public void calcularTotal() {
+        BigDecimal total = BigDecimal.ZERO;
+    for (itemPedido item : itens) {
+     BigDecimal subtotal = item.getVUnit().multiply(BigDecimal.valueOf(item.getQuant()));
+        total = total.add(subtotal);
+    }
+    
+    this.valor = total;
+    
+    }
       }
