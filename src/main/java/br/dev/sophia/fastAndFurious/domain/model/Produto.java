@@ -1,24 +1,38 @@
 
 package br.dev.sophia.fastAndFurious.domain.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import java.math.BigDecimal;
-import java.util.List;
 
+@Entity
 public class Produto {
    
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
  
   private String nome;
   private String descrição;
   private BigDecimal precoUnit;
   
-  @OneToMany(mappedBy = "produto")
-  private List<itemPedido> itens;
+
+  @ManyToOne
+  @JoinColumn(name = "categoria_id")
+  private Categoria categoria;
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
 
     public BigDecimal getPrecoUnit() {
         return precoUnit;
@@ -31,10 +45,11 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(long id, String nome, String descrição) {
+    public Produto(long id, String nome, String descrição, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.descrição = descrição;
+        this.categoria = categoria;
     }
 
     @Override

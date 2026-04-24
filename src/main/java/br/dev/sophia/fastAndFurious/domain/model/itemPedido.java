@@ -3,17 +3,20 @@ package br.dev.sophia.fastAndFurious.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
+@Table(name = "item_pedido")
 public class itemPedido {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     private int quant;
@@ -24,9 +27,25 @@ public class itemPedido {
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
     
     @ManyToOne
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produtos_id")
     private Produto produto;
     
     

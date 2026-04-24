@@ -31,7 +31,7 @@ public class PedidoController {
         return pedidoService.criar(pedido);
     }
 
-    @DeleteMapping("/pedidoID/")
+    @DeleteMapping("{pedidoID}")
     public ResponseEntity<Void> excluir(@PathVariable Long pedidoID) {
         if (!pedidoRepository.existsById(pedidoID)) {
             return ResponseEntity.notFound().build();
@@ -47,7 +47,7 @@ public class PedidoController {
         return listaPedidos;
     }
     
-    @GetMapping
+    @GetMapping("/{pedidoID}")
     public ResponseEntity<Pedido> listarPorId(@PathVariable Long PedidoID) {
         Optional<Pedido> pedido = pedidoService.listarPorId(PedidoID);
         
@@ -59,7 +59,7 @@ public class PedidoController {
         }
     } 
     
-    @PutMapping("/pedidoID/")
+    @PutMapping("/{pedidoID}/")
     public ResponseEntity<Long> atualizar (@PathVariable Long pedidoID, @RequestBody Pedido dadosNovos) {
         Optional<Pedido> pedidoVelho = pedidoRepository.findById(pedidoID);
         

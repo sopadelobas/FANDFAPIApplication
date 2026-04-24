@@ -6,12 +6,12 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.10</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/> 
     </parent>
     <groupId>br.dev.sophia</groupId>
     <artifactId>fastAndFurious</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name/>
+    <name>fastAndFurious</name>
     <description/>
     <url/>
     <licenses>
@@ -48,6 +48,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -55,6 +60,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>br.dev.sophia.fastAndFurious.FastAndFuriousApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
