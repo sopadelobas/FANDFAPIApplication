@@ -1,6 +1,8 @@
 // Classe que modela os itens que compõem o pedido, utilizando a classe produto. 
 package br.dev.sophia.fastAndFurious.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,19 +15,26 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "item_pedido")
-public class itemPedido {
+
+public class ItemPedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(name = "quantidade")
     private int quant;
-
+    
     private String obs;
     private BigDecimal vUnit;
-
+    
+    @ManyToOne
+    @JoinColumn(name = "produto_id")
+    private Produto produto;
+    
     @ManyToOne
     @JoinColumn(name = "pedido_id")
+    @JsonIgnore
     private Pedido pedido;
 
     public Pedido getPedido() {
@@ -44,16 +53,12 @@ public class itemPedido {
         this.produto = produto;
     }
     
-    @ManyToOne
-    @JoinColumn(name = "produtos_id")
-    private Produto produto;
-    
     
     public BigDecimal getVUnit() {
         return vUnit;
     }
 
-    public void setvUnit(BigDecimal vUnit) {
+    public void setVUnit(BigDecimal vUnit) {
         this.vUnit = vUnit;
     }
 
@@ -64,7 +69,8 @@ public class itemPedido {
     public void setQuant(int quant) {
         this.quant = quant;
     }
-        public itemPedido() {
+       
+    public ItemPedido() {
     }
 
     public Long getId() {
@@ -101,7 +107,7 @@ public class itemPedido {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final itemPedido other = (itemPedido) obj;
+        final ItemPedido other = (ItemPedido) obj;
         return Objects.equals(this.id, other.id);
     }
 

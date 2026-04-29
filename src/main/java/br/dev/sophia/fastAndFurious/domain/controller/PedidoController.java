@@ -25,12 +25,14 @@ public class PedidoController {
 
     @Autowired
     private PedidoRepository pedidoRepository;
-
+    
+    // Criação do método para criar pedidos 
     @PostMapping
     public Pedido criar(@RequestBody Pedido pedido) {
         return pedidoService.criar(pedido);
     }
-
+    
+    // Criação do método para excluir pedidos
     @DeleteMapping("{pedidoID}")
     public ResponseEntity<Void> excluir(@PathVariable Long pedidoID) {
         if (!pedidoRepository.existsById(pedidoID)) {
@@ -41,15 +43,17 @@ public class PedidoController {
         return ResponseEntity.noContent().build();
     }
     
+    // Criação do método para listar pedidos 
     @GetMapping
     public List<Pedido> listarTodos() {
         List<Pedido> listaPedidos = pedidoService.listar();
         return listaPedidos;
     }
     
+    // Criação do método para listar por id  
     @GetMapping("/{pedidoID}")
-    public ResponseEntity<Pedido> listarPorId(@PathVariable Long PedidoID) {
-        Optional<Pedido> pedido = pedidoService.listarPorId(PedidoID);
+    public ResponseEntity<Pedido> listarPorId(@PathVariable Long pedidoID) {
+        Optional<Pedido> pedido = pedidoService.listarPorId(pedidoID);
         
         if (pedido.isPresent()) {
             return ResponseEntity.ok(pedido.get());
@@ -59,7 +63,8 @@ public class PedidoController {
         }
     } 
     
-    @PutMapping("/{pedidoID}/")
+    // Criação do método para atualizar pedidos
+    @PutMapping("/{pedidoID}")
     public ResponseEntity<Long> atualizar (@PathVariable Long pedidoID, @RequestBody Pedido dadosNovos) {
         Optional<Pedido> pedidoVelho = pedidoRepository.findById(pedidoID);
         
@@ -76,11 +81,13 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoID);
     }
     
-    @GetMapping("/pedido/status/{statuspedido}")
+    // Criação do método para listar por status
+    @GetMapping("/status/{status}")
     public ResponseEntity<List<Pedido>> listarPorStatus(@PathVariable StatusPedido status){ 
        return ResponseEntity.ok(pedidoService.listarPorStatus(status));      
     }
     
+    // Criação do método para mudar status dos pedidos 
     @PutMapping("/statuspedido/{pedidoID}")
     public ResponseEntity<Pedido> modificarStatus(@PathVariable Long pedidoID, @RequestBody AtualizaStatusPedidoDTO statusDTO) {
         Optional<Pedido> pedidoStatus = pedidoService.atualizaStatus(pedidoID, statusDTO.status());

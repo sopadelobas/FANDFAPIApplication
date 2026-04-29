@@ -1,6 +1,5 @@
 
 package br.dev.sophia.fastAndFurious.domain.service;
-import br.dev.sophia.fastAndFurious.domain.model.Categoria;
 import br.dev.sophia.fastAndFurious.domain.model.Produto;
 import br.dev.sophia.fastAndFurious.domain.repository.ProdutoRepository;
 import java.util.List;
@@ -32,11 +31,11 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
     
-    public Optional<Produto> listarPorId(Long ProdutoID) {
-        return produtoRepository.findById(ProdutoID);
+    public Optional<Produto> listarPorId(Long produtoID) {
+        return produtoRepository.findById(produtoID);
     }
     
     public List<Produto> listarPorCategoria(String categoria) {
-        return produtoRepository.findByCategoria(categoria);
+        return produtoRepository.findByCategoria_Nome(categoria);
     }
 }

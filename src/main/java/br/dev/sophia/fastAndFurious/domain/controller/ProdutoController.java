@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/fastfurious/produto")
+@RequestMapping("/fastfurious/produtos")
 public class ProdutoController {
 
     @Autowired
@@ -26,15 +26,14 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Produto> listarTodos() {
-        List<Produto> listaProdutos = produtoService.listar();
-        return listaProdutos;
+        return produtoService.listar();
     }
 
-    @GetMapping("/{produtoID}/")
-    public ResponseEntity<Produto> listarPorId(@PathVariable Long ProdutoID) {
-        Optional<Produto> produto = produtoService.listarPorId(ProdutoID);
+    @GetMapping("/{produtoID}")
+    public ResponseEntity<Produto> listarPorId(@PathVariable Long produtoID) {
+        Optional<Produto> produto = produtoService.listarPorId(produtoID);
 
         if (produto.isPresent()) {
             return ResponseEntity.ok(produto.get());
@@ -45,7 +44,7 @@ public class ProdutoController {
 
     @PutMapping("/{produtoID}")
     public ResponseEntity<Long> atualizarInf(@PathVariable Long produtoID, @RequestBody Produto dadosAtua) {
-        Optional<Produto> produtoDesatu = produtoRepository.findById(produtoID);
+        Optional<Produto> produtoDesatu = produtoService.listarPorId(produtoID);
 
         if (produtoDesatu.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -54,18 +53,20 @@ public class ProdutoController {
         Produto produto = produtoDesatu.get();
         produto.setNome(dadosAtua.getNome());
         produto.setPrecoUnit(dadosAtua.getPrecoUnit());
-        produto.setDescrição(dadosAtua.getDescrição());
+        produto.setDescricao(dadosAtua.getDescricao());
+        produto.setCategoria(dadosAtua.getCategoria());
 
         produtoRepository.save(produto);
         return ResponseEntity.ok(produtoID);
     }
 
     @PostMapping
-    public Produto criar(@RequestBody Produto produto) {
-        return produtoService.criar(produto);
+    public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
+        Produto novo = produtoService.criar(produto);
+        return ResponseEntity.ok(novo);
     }
 
-    @DeleteMapping("/{produtoID}/")
+    @DeleteMapping("/{produtoID}")
     public ResponseEntity<Void> excluir(@PathVariable Long produtoID) {
         if (!produtoRepository.existsById(produtoID)) {
             return ResponseEntity.notFound().build();
@@ -75,7 +76,7 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/produto/cat/{categoria}")
+    @GetMapping("/cat/{categoria}")
     public List<Produto> listarPorCategoria(@PathVariable String categoria) {
         List<Produto> listaCat = produtoService.listarPorCategoria(categoria);
         return listaCat;

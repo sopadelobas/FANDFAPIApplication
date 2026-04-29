@@ -1,24 +1,31 @@
 
 package br.dev.sophia.fastAndFurious.domain.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Entity
+@Table(name = "produtos")
 public class Produto {
    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
  
   private String nome;
-  private String descrição;
+  
+  @Column(name = "descricao")
+  private String descricao;
+  
+  @Column(name = "preco")
   private BigDecimal precoUnit;
   
 
@@ -48,14 +55,14 @@ public class Produto {
     public Produto(long id, String nome, String descrição, Categoria categoria) {
         this.id = id;
         this.nome = nome;
-        this.descrição = descrição;
+        this.descricao = descrição;
         this.categoria = categoria;
     }
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -71,9 +78,11 @@ public class Produto {
             return false;
         }
         final Produto other = (Produto) obj;
-        return this.id == other.id;
+        return Objects.equals(this.id, other.id);
     }
 
+    
+    
     public long getId() {
         return id;
     }
@@ -90,12 +99,12 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getDescrição() {
-        return descrição;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescrição(String descrição) {
-        this.descrição = descrição;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
   
 }
