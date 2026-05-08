@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -17,20 +20,24 @@ import java.util.Objects;
 public class Produto {
    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
- 
+
+  @NotBlank
   private String nome;
   
   @Column(name = "descricao")
+  @NotBlank
   private String descricao;
   
   @Column(name = "preco")
+  @NotNull
   private BigDecimal precoUnit;
   
-
+  @Valid
   @ManyToOne
   @JoinColumn(name = "categoria_id")
+  @NotNull
   private Categoria categoria;
 
     public Categoria getCategoria() {

@@ -12,29 +12,35 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "item_pedido")
-
 public class ItemPedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @Column(name = "quantidade")
     private int quant;
     
+    @Column(name = "obs")
     private String obs;
+    
+    @JsonProperty("vunit")
+    @Column(name = "v_unit")
     private BigDecimal vUnit;
     
     @ManyToOne
-    @JoinColumn(name = "produto_id")
+    @JoinColumn(name = "produtos_id")
     private Produto produto;
     
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     @JsonIgnore
+    @JsonBackReference
     private Pedido pedido;
 
     public Pedido getPedido() {

@@ -25,6 +25,7 @@ public class PedidoService {
         if (pedido.getItens() != null) {
             for (ItemPedido item : pedido.getItens()) {
                 item.setPedido(pedido);
+               
             }
         }
 

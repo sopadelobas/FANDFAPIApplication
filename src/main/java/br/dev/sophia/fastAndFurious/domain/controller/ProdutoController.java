@@ -3,6 +3,8 @@ package br.dev.sophia.fastAndFurious.domain.controller;
 import br.dev.sophia.fastAndFurious.domain.model.Produto;
 import br.dev.sophia.fastAndFurious.domain.repository.ProdutoRepository;
 import br.dev.sophia.fastAndFurious.domain.service.ProdutoService;
+import br.dev.sophia.fastAndFurious.exception.DomainException;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
+    public ResponseEntity<Produto> criar(@RequestBody @Valid Produto produto) {
         Produto novo = produtoService.criar(produto);
         return ResponseEntity.ok(novo);
     }
@@ -76,10 +78,14 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/cat/{categoria}")
-    public List<Produto> listarPorCategoria(@PathVariable String categoria) {
-        List<Produto> listaCat = produtoService.listarPorCategoria(categoria);
+    @GetMapping("/cat/{categoriaId}")
+    public List<Produto> listarPorCategoria(@PathVariable Long categoriaId) {
+        List<Produto> listaCat = produtoService.listarPorCategoria(categoriaId);
+
+        if (listaCat.isEmpty()) {
+            throw new DomainException("Nenhum produto encontrado para essa categoria");
+        }
+
         return listaCat;
     }
 }
-

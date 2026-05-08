@@ -35,7 +35,7 @@ public class ProdutoService {
         return produtoRepository.findById(produtoID);
     }
     
-    public List<Produto> listarPorCategoria(String categoria) {
-        return produtoRepository.findByCategoria_Nome(categoria);
+    public List<Produto> listarPorCategoria(Long categoriaId) {
+        return produtoRepository.findByCategoria_Id(categoriaId);
     }
 }
