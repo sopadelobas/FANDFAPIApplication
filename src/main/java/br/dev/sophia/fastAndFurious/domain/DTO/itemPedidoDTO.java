@@ -1,14 +1,20 @@
 
 package br.dev.sophia.fastAndFurious.domain.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
-public class itemPedidoDTO {
+public class ItemPedidoDTO {
     
+    //Variáveis 
     private int quant;
     private String obs;
+    
+    @JsonProperty("vUnit")
     private BigDecimal vUnit;
     private Long produtoId;
+    
+    //Getters e setters
     public int getQuant() {
         return quant;
     }
@@ -28,7 +34,7 @@ public class itemPedidoDTO {
     public BigDecimal getVUnit() {
         return vUnit;
     }
-
+    
     public void setVUnit(BigDecimal vUnit) {
         this.vUnit = vUnit;
     }
@@ -40,7 +46,5 @@ public class itemPedidoDTO {
     public void setProdutoId(Long produtoId) {
         this.produtoId = produtoId;
     }
-    
-   
     
 }

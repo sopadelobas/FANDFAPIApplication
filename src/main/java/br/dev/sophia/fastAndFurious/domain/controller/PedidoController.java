@@ -2,7 +2,7 @@ package br.dev.sophia.fastAndFurious.domain.controller;
 
 import br.dev.sophia.fastAndFurious.domain.DTO.AtualizaStatusPedidoDTO;
 import br.dev.sophia.fastAndFurious.domain.DTO.PedidoDTO;
-import br.dev.sophia.fastAndFurious.domain.DTO.itemPedidoDTO;
+import br.dev.sophia.fastAndFurious.domain.DTO.ItemPedidoDTO;
 import br.dev.sophia.fastAndFurious.domain.model.ItemPedido;
 import br.dev.sophia.fastAndFurious.domain.model.Pedido;
 import br.dev.sophia.fastAndFurious.domain.model.Produto;
@@ -76,7 +76,7 @@ public class PedidoController {
     // Criação do método para atualizar pedidos
     @PutMapping("/{pedidoID}")
     public ResponseEntity<Pedido> atualizar(@PathVariable Long pedidoID,
-            @RequestBody Pedido dadosNovos, PedidoDTO dto ) {
+            @RequestBody PedidoDTO dto) {
 
         Optional<Pedido> pedidoVelho = pedidoRepository.findById(pedidoID);
 
@@ -85,64 +85,58 @@ public class PedidoController {
         }
 
         Pedido pedido = pedidoVelho.get();
-        pedido.setNomeCliente(dadosNovos.getNomeCliente());
-        pedido.setCpfCliente(dadosNovos.getCpfCliente());
-        pedido.setStatus(dadosNovos.getStatus());
+
+        pedido.setNomeCliente(dto.getNomeCliente());
+        pedido.setCpfCliente(dto.getCpfCliente());
 
         if (pedido.getItens() == null) {
             pedido.setItens(new ArrayList<>());
         } else {
             pedido.getItens().clear();
         }
- 
-    if (dto.getItens() != null) {
 
-        for (itemPedidoDTO itemDTO : dto.getItens()) {
+        if (dto.getItens() != null) {
 
-            Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+            for (ItemPedidoDTO itemDTO : dto.getItens()) {
 
-            ItemPedido item = new ItemPedido();
-            item.setQuant(itemDTO.getQuant());
-            item.setObs(itemDTO.getObs());
-            item.setVUnit(itemDTO.getVUnit());
+                Produto produto = produtoRepository.findById(itemDTO.getProdutoId())
+                        .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
-            item.setProduto(produto);
-            item.setPedido(pedido);
+                System.out.println("DTO VUNIT = " + itemDTO.getVUnit());
+                System.out.println(dto.getItens().get(0).getClass());
+                ItemPedido item = new ItemPedido();
+                item.setQuant(itemDTO.getQuant());
+                item.setObs(itemDTO.getObs());
+                item.setVUnit(itemDTO.getVUnit());
 
-            pedido.getItens().add(item);
-        }
-    }
+                item.setProduto(produto);
+                item.setPedido(pedido);
 
-    pedido.calcularTotal();
-
-
-            return ResponseEntity.ok(pedidoRepository.save(pedido));
-        }
-
-        // Criação do método para listar por status
-        @GetMapping("/status/{status}")
-        public ResponseEntity<List<Pedido>> listarPorStatus
-        (@PathVariable
-        StatusPedido status
-        
-            ) {
-        return ResponseEntity.ok(pedidoService.listarPorStatus(status));
-        }
-
-        // Criação do método para mudar status dos pedidos 
-        @PutMapping("/statuspedido/{pedidoID}")
-        public ResponseEntity<Pedido> modificarStatus
-        (@PathVariable
-        Long pedidoID, @RequestBody AtualizaStatusPedidoDTO statusDTO
-        
-            ) {
-        Optional<Pedido> pedidoStatus = pedidoService.atualizaStatus(pedidoID, statusDTO.status());
-
-            if (pedidoStatus.isPresent()) {
-                return ResponseEntity.ok(pedidoStatus.get());
-            } else {
-                return ResponseEntity.notFound().build();
+                pedido.getItens().add(item);
             }
         }
+
+        pedido.calcularTotal();
+
+        return ResponseEntity.ok(pedidoRepository.save(pedido));
     }
+
+    // Criação do método para listar por status
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Pedido>> listarPorStatus(@PathVariable StatusPedido status
+    ) {
+        return ResponseEntity.ok(pedidoService.listarPorStatus(status));
+    }
+
+    // Criação do método para mudar status dos pedidos 
+    @PutMapping("/statuspedido/{pedidoID}")
+    public ResponseEntity<Pedido> modificarStatus(@PathVariable Long pedidoID, @RequestBody AtualizaStatusPedidoDTO statusDTO) {
+        Optional<Pedido> pedidoStatus = pedidoService.atualizaStatus(pedidoID, statusDTO.status());
+
+        if (pedidoStatus.isPresent()) {
+            return ResponseEntity.ok(pedidoStatus.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}

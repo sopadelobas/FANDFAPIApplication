@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "item_pedido")
@@ -29,7 +28,6 @@ public class ItemPedido {
     @Column(name = "obs")
     private String obs;
     
-    @JsonProperty("vunit")
     @Column(name = "v_unit")
     private BigDecimal vUnit;
     

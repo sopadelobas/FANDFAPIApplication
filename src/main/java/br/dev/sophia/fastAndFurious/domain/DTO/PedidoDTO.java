@@ -1,22 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package br.dev.sophia.fastAndFurious.domain.DTO;
 
 import java.util.List;
 
-/**
- *
- * @author sesi3dib
- */
 public class PedidoDTO {
 
+    //Variáveis 
     private String nomeCliente;
     private String cpfCliente;
+    
+    //Lista
+    private List<ItemPedidoDTO> itens;
 
-    private List<itemPedidoDTO> itens;
-
+    //Getters e setters
     public String getNomeCliente() {
         return nomeCliente;
     }
@@ -33,14 +29,11 @@ public class PedidoDTO {
         this.cpfCliente = cpfCliente;
     }
 
-    public List<itemPedidoDTO> getItens() {
+    public List<ItemPedidoDTO> getItens() {
         return itens;
     }
 
-    public void setItens(List<itemPedidoDTO> itens) {
+    public void setItens(List<ItemPedidoDTO> itens) {
         this.itens = itens;
-    }
-
-    
-    
+    }    
 }

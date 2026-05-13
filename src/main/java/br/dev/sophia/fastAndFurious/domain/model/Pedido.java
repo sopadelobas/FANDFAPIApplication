@@ -20,9 +20,11 @@ import java.util.List;
 @Table(name = "pedido")
 public class Pedido {
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    //Mapeamento
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itens = new ArrayList<>();
 
+    //Variáveis
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,7 +54,8 @@ public class Pedido {
     @Column(name = "status_pedido")
     private StatusPedido status;
 
-
+    
+    //Getters and setters
     public LocalDateTime getDataCancelado() {
         return dataCancelado;
     }
@@ -111,11 +114,11 @@ public class Pedido {
         this.valor = valor;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -143,9 +146,11 @@ public class Pedido {
         this.valor = valor;
     }
 
+    //Método para calcular valor
     public void calcularTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (ItemPedido item : itens) {
+              System.out.println("ITEM VUNIT = " + item.getVUnit());
             BigDecimal subtotal = item.getVUnit().multiply(BigDecimal.valueOf(item.getQuant()));
             total = total.add(subtotal);
         }

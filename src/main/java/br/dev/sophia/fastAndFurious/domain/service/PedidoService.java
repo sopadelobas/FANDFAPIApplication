@@ -24,8 +24,9 @@ public class PedidoService {
 
         if (pedido.getItens() != null) {
             for (ItemPedido item : pedido.getItens()) {
+                System.out.println(item.getVUnit());
                 item.setPedido(pedido);
-               
+
             }
         }
 
@@ -71,7 +72,8 @@ public class PedidoService {
 
         boolean valido = false;
 
-        if (statusAtual == StatusPedido.ABERTO && (status == StatusPedido.ENTREGUE || status == StatusPedido.CANCELADO)) {
+        if (statusAtual == StatusPedido.ABERTO && (status == StatusPedido.PRONTO || status == StatusPedido.ENTREGUE || status == StatusPedido.CANCELADO)) {
+
             valido = true;
         }
 
@@ -81,6 +83,10 @@ public class PedidoService {
         if (status == StatusPedido.ENTREGUE) {
             valido = true;
             pedido.setDataEntregue(LocalDateTime.now());
+        }
+
+        if (status == StatusPedido.PRONTO) {
+            pedido.setDataPronto(LocalDateTime.now());
         }
 
         if (!valido) {
