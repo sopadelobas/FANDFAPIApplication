@@ -17,7 +17,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 @Table(name = "item_pedido")
 public class ItemPedido {
-
+    
+    //Variáveis
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,6 +32,7 @@ public class ItemPedido {
     @Column(name = "v_unit")
     private BigDecimal vUnit;
     
+    //Import de produto e pedido
     @ManyToOne
     @JoinColumn(name = "produtos_id")
     private Produto produto;
@@ -40,7 +42,8 @@ public class ItemPedido {
     @JsonIgnore
     @JsonBackReference
     private Pedido pedido;
-
+    
+    //Getters and setters
     public Pedido getPedido() {
         return pedido;
     }

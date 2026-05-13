@@ -22,17 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/fastfurious/produtos")
 public class ProdutoController {
 
+    //Import do Service e do Repository
     @Autowired
     private ProdutoRepository produtoRepository;
 
     @Autowired
     private ProdutoService produtoService;
-
+    
+    //Método para listar todos os produtos
     @GetMapping
     public List<Produto> listarTodos() {
         return produtoService.listar();
     }
-
+    
+     //Método para listar produtos por ID
     @GetMapping("/{produtoID}")
     public ResponseEntity<Produto> listarPorId(@PathVariable Long produtoID) {
         Optional<Produto> produto = produtoService.listarPorId(produtoID);
@@ -43,7 +46,8 @@ public class ProdutoController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
+     //Método para atualizar produtos
     @PutMapping("/{produtoID}")
     public ResponseEntity<Long> atualizarInf(@PathVariable Long produtoID, @RequestBody Produto dadosAtua) {
         Optional<Produto> produtoDesatu = produtoService.listarPorId(produtoID);
@@ -61,13 +65,15 @@ public class ProdutoController {
         produtoRepository.save(produto);
         return ResponseEntity.ok(produtoID);
     }
-
+    
+     //Método para criar produtos
     @PostMapping
     public ResponseEntity<Produto> criar(@RequestBody @Valid Produto produto) {
         Produto novo = produtoService.criar(produto);
         return ResponseEntity.ok(novo);
     }
 
+     //Método para deletar produtos
     @DeleteMapping("/{produtoID}")
     public ResponseEntity<Void> excluir(@PathVariable Long produtoID) {
         if (!produtoRepository.existsById(produtoID)) {
@@ -78,6 +84,7 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
+     //Método para listar todos os produtos por uma categoria
     @GetMapping("/cat/{categoriaId}")
     public List<Produto> listarPorCategoria(@PathVariable Long categoriaId) {
         List<Produto> listaCat = produtoService.listarPorCategoria(categoriaId);

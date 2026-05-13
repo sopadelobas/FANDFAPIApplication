@@ -18,7 +18,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "produtos")
 public class Produto {
-   
+    
+     //Variáveis
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +35,7 @@ public class Produto {
   @NotNull
   private BigDecimal precoUnit;
   
+   //Import de categoria
   @Valid
   @ManyToOne
   @JoinColumn(name = "categoria_id")
